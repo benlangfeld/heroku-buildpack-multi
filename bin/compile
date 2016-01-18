@@ -45,6 +45,8 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     # we'll get errors later if these are needed and don't exist
     chmod -f +x $dir/bin/{detect,compile,release} || true
 
+    find $dir -type f -not -path '*/.git/*' -print0 | xargs -0 perl -pi -e s,/app,/opt/queueflex,g
+
     framework=$($dir/bin/detect $1)
 
     if [ $? == 0 ]; then
